@@ -7,21 +7,10 @@ Raven board with [firmware deployed](https://github.com/MASLAB/kitbot-how-to?tab
 # MASLAB software library
 MASLAB staffs maintain a Python library that supports using the motors and servos on the Raven board (`raven`) along with an integrated IMU (`icm42688`). The library is installed on the Pi as part of the kitbot [Raven setup](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#raven-setup).
 
-## Import IMU
-```Python
-from icm42688 import ICM42688
-import board
+> [!IMPORTANT]
+> Since these library is communicating with a hardware, no two instances may run at the same time. **DO NOT** have two different ROS2 nodes trying to use Raven. Instead, have a node subscribing to some Raven control messages and have other nodes publish messages for controlling.
 
-spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
-
-while not spi.try_lock():
-    pass
-
-spi.configure(baudrate=5000000)
-
-imu = ICM42688(spi)
-imu.begin()
-```
+The library is available at https://github.com/MASLAB/maslab-lib.
 
 ## Import Raven
 ```Python
@@ -29,11 +18,6 @@ from raven import Raven
 
 raven_board = Raven()
 ```
-
-> [!IMPORTANT]
-> Since these library is communicating with a hardware, no two instances may run at the same time. **DO NOT** have two different ROS2 nodes trying to use Raven. Instead, have a node subscribing to some Raven control messages and have other nodes publish messages for controlling.
-
-The library is available at https://github.com/MASLAB/maslab-lib.
 
 # DC Motors
 DC motors may come with encoders to estimate how many rotation has the motor rotated. To increase the resolution of the encoder, the encoder spins with some gear ratio with respect to the motor, which also has another gear ratio. For example, the provided motor is a 10:1 motor with an encoder that does 11 counts per revolution (also called pulse per revolution). This means the encoder will count 10 * 11 = 110 counts per motor rotation.
@@ -124,7 +108,23 @@ raven_board.set_servo_position(Raven.ServoChannel.CH1, -75, min_us=500, max_us=2
 
 The orientation follows right-hand rule such that Z-axis points out of the picture, and rotation of each axis is counter-clockwise.
 
-To use the IMU, make sure you [import and initialize the IMU](#import-imu). Then follow the following examples
+## Import IMU
+To use the IMU, make sure you import and initialize the IMU:
+
+```Python
+from icm42688 import ICM42688
+import board
+
+spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
+
+while not spi.try_lock():
+    pass
+
+spi.configure(baudrate=5000000)
+
+imu = ICM42688(spi)
+imu.begin()
+```
 
 ## Basic usage
 ```Python
