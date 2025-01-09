@@ -22,7 +22,18 @@ raven_board = Raven()
 # DC Motors
 DC motors may come with encoders to estimate how many rotation has the motor rotated. To increase the resolution of the encoder, the encoder spins with some gear ratio with respect to the motor, which also has another gear ratio. For example, the provided motor is a 10:1 motor with an encoder that does 11 counts per revolution (also called pulse per revolution). This means the encoder will count 10 * 11 = 110 counts per motor rotation.
 
-Raven supports up to [5 DC motors with encoders](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#motor-connection). There are 3 ways to drive the motors:
+Raven supports up to [5 DC motors with encoders](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#motor-connection). 
+
+## Encoder
+With Raven, you can get the encoder values. You can also set them to a new initial value, useful for initialization because Raven remembers the old encoder values while the robot is running. Here is an example of how to use it:
+
+```Python
+raven_board.set_encoder_value(Raven.MotorChannel.CH1, 0) # Set encoder count for motor 1 to zero
+print(raven_board.get_encoder_value(Raven.MotorChannel.CH1)) # Print encoder count = "0"
+```
+
+## Motor
+There are 3 ways to drive the motors:
 * Direct - Motor moves according to a torque and speed factor. We recommend driving in direct mode first to get things started.
 * Position (requires encoder) - Motor moves to an encoder position with PID control
 * Velocity (requires encoder) - Motor moves with a set encoder velocity using PID control
@@ -33,7 +44,7 @@ To use the motors, make sure you have [imported Raven](#import-raven). Then foll
 > [!TIP]
 > Once motor mode and PID values are set, you can set motor drive values without having to set the mode and PID values again.
 
-## Direct mode
+### Direct mode
 In direct mode, you get to set the torque factor as 0% to 100% of available torque. You also get to set the speed as 0% to 100% of max speed and a direction of rotation. These conditions are subjected to the battery's voltage. Do this for most reliable actuation or custom controls. Also useful as a part of mechanical designs.
 
 ```Python
@@ -48,7 +59,7 @@ raven_board.set_speed_factor(Raven.MotorChannel.CH1, 100) # Make motor try to ru
 raven_board.set_torque_factor(Raven.MotorChannel.CH1, 10) # Let it use up to 10% available torque
 ```
 
-## Controlled mode
+### Controlled mode
 > [!IMPORTANT]
 > The control loop for Raven motor runs at 5kHz (dt = 0.0002). This will be important to playing with PID values.
 
@@ -63,10 +74,11 @@ raven_board.set_torque_factor(Raven.MotorChannel.CH1, 10) # Let it use up to 10%
 > [!TIP]
 > Check control theory lecture notes to refresh about PID control: https://maslab.mit.edu/2025/lectures
 
-### Position controlled
+#### Position controlled
 In position controlled mode, you get to set the PID value for the controller and a target in encoder counts.
 
 ```Python
+raven_board.set_encoder_value(Raven.MotorChannel.CH1, 0) # Reset encoder
 raven_board.set_motor_mode(Raven.MotorChannel.CH1, Raven.MotorMode.POSITION) # Set motor mode to POSITION
 raven_board.set_motor_pid(Raven.MotorChannel.CH1, p_gain = 100, i_gain = 0, d_gain = 0) # Set PID values
 
@@ -74,10 +86,11 @@ raven_board.set_motor_pid(Raven.MotorChannel.CH1, p_gain = 100, i_gain = 0, d_ga
 raven_board.set_motor_target(Raven.MotorChannel.CH1, 1100)
 ```
 
-### Velocity controlled
+#### Velocity controlled
 In velocity controlled mode, you also get to set PID value and target in encoder counts per second.
 
 ```Python
+raven_board.set_encoder_value(Raven.MotorChannel.CH1, 0) # Reset encoder
 raven_board.set_motor_mode(Raven.MotorChannel.CH1, Raven.MotorMode.VELOCITY) # Set motor mode to POSITION
 raven_board.set_motor_pid(Raven.MotorChannel.CH1, p_gain = 10, i_gain = 0, d_gain = 0) # Set PID values
 
