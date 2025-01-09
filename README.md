@@ -1,8 +1,8 @@
 # Software how-to
-Guide and general tips on using MASLAB software and other software to interact with sensors and actuators on the robot.
+Guide and general tips on using MASLAB software and other software to interact with sensors and actuators on the robot. Checkout [kitbot how-to](https://github.com/MASLAB/kitbot-how-to) to learn how to connect the hardwares.
 
 ## Prerequisites
-Raven board with [firmware deployed](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#raven-setup)
+Raven board [fully soldered](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#servo-connection) with [firmware deployed](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#raven-setup) and the Pi.
 
 # MASLAB software library
 MASLAB staffs maintain a Python library that supports using the motors and servos on the Raven board (`raven`) along with an integrated IMU (`icm42688`). The library is installed on the Pi as part of the kitbot [Raven setup](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#raven-setup).
@@ -22,16 +22,16 @@ raven_board = Raven()
 # DC Motors
 DC motors may come with encoders to estimate how many rotation has the motor rotated. To increase the resolution of the encoder, the encoder spins with some gear ratio with respect to the motor, which also has another gear ratio. For example, the provided motor is a 10:1 motor with an encoder that does 11 counts per revolution (also called pulse per revolution). This means the encoder will count 10 * 11 = 110 counts per motor rotation.
 
-Raven supports up to 5 DC motors with encoders. There are 3 ways to drive the motors:
+Raven supports up to [5 DC motors with encoders](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#motor-connection). There are 3 ways to drive the motors:
 * Direct - Motor moves according to a torque and speed factor. We recommend driving in direct mode first to get things started.
 * Position (requires encoder) - Motor moves to an encoder position with PID control
 * Velocity (requires encoder) - Motor moves with a set encoder velocity using PID control
 * Disabled - Turn off the motor
 
-To use the motors, make sure you have [imported Raven](#import-raven). Then follow the following examples for each mode. The examples assume we are using motor 1.
+To use the motors, make sure you have [imported Raven](#import-raven). Then follow the following examples for each mode.
 
 > [!TIP]
-> Once motor mode and PID values are set, you can `set` motor drive values without having to set the mode and PID values again.
+> Once motor mode and PID values are set, you can set motor drive values without having to set the mode and PID values again.
 
 ## Direct mode
 In direct mode, you get to set the torque factor as 0% to 100% of available torque. You also get to set the speed as 0% to 100% of max speed and a direction of rotation. These conditions are subjected to the battery's voltage. Do this for most reliable actuation or custom controls. Also useful as a part of mechanical designs.
@@ -40,12 +40,12 @@ In direct mode, you get to set the torque factor as 0% to 100% of available torq
 raven_board.set_motor_mode(Raven.MotorChannel.CH1, Raven.MotorMode.DIRECT) # Set motor mode to DIRECT
 
 # Speed controlled:
-raven_board.set_torque_factor(Raven.Motor.CH1, 100) # Let the motor use all the torque to get speed factor
-raven_board.set_speed_factor(Raven.Motor.CH1, 10, reverse=True) # Spin at 10% max speed in reverse
+raven_board.set_torque_factor(Raven.MotorChannel.CH1, 100) # Let the motor use all the torque to get speed factor
+raven_board.set_speed_factor(Raven.MotorChannel.CH1, 10, reverse=True) # Spin at 10% max speed in reverse
 
 # Torque controlled:
-raven_board.set_speed_factor(Raven.Motor.CH1, 100) # Make motor try to run at max speed forward
-raven_board.set_torque_factor(Raven.Motor.CH1, 10) # Let it uses up to 10% available torque
+raven_board.set_speed_factor(Raven.MotorChannel.CH1, 100) # Make motor try to run at max speed forward
+raven_board.set_torque_factor(Raven.MotorChannel.CH1, 10) # Let it uses up to 10% available torque
 ```
 
 ## Controlled mode
@@ -92,7 +92,7 @@ Servos are position controlled motors that can move from -90 degree to 90 degree
 <img src="image/servo_timing.png" width="75%" />
 </p>
 
-Raven board supports up to 4 servos. For each servo, you get to set the position in degree. Optionally, you can set the minimum and maximum pulse microsecond as `min_us` and `max_us` for you appropriate motor. Otherwise, they are defaulted to `min_us=1000` and `max_us=2000`. Here is an example of how to use them once you have [imported Raven](#import-raven).
+Raven board supports up to [4 servos](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#servo-connection). For each servo, you get to set the position in degree. Optionally, you can set the minimum and maximum pulse microsecond as `min_us` and `max_us` for you appropriate motor. Otherwise, they are defaulted to `min_us=1000` and `max_us=2000`. Here is an example of how to use them once you have [imported Raven](#import-raven).
 
 ```Python
 # Set the servo 1 to -75 degrees with custom pulse microseconds
