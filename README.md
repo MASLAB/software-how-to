@@ -51,12 +51,12 @@ In direct mode, you get to set the torque factor as 0% to 100% of available torq
 raven_board.set_motor_mode(Raven.MotorChannel.CH1, Raven.MotorMode.DIRECT) # Set motor mode to DIRECT
 
 # Speed controlled:
-raven_board.set_torque_factor(Raven.MotorChannel.CH1, 100) # Let the motor use all the torque to get to speed factor
-raven_board.set_speed_factor(Raven.MotorChannel.CH1, 10, reverse=True) # Spin at 10% max speed in reverse
+raven_board.set_motor_torque_factor(Raven.MotorChannel.CH1, 100) # Let the motor use all the torque to get to speed factor
+raven_board.set_motor_speed_factor(Raven.MotorChannel.CH1, 10, reverse=True) # Spin at 10% max speed in reverse
 
 # Torque controlled:
-raven_board.set_speed_factor(Raven.MotorChannel.CH1, 100) # Make motor try to run at max speed forward
-raven_board.set_torque_factor(Raven.MotorChannel.CH1, 10) # Let it use up to 10% available torque
+raven_board.set_motor_speed_factor(Raven.MotorChannel.CH1, 100) # Make motor try to run at max speed forward
+raven_board.set_motor_torque_factor(Raven.MotorChannel.CH1, 10) # Let it use up to 10% available torque
 ```
 
 ### Controlled mode
@@ -78,7 +78,7 @@ raven_board.set_torque_factor(Raven.MotorChannel.CH1, 10) # Let it use up to 10%
 In position controlled mode, you get to set the PID value for the controller and a target in encoder counts.
 
 ```Python
-raven_board.set_encoder_value(Raven.MotorChannel.CH1, 0) # Reset encoder
+raven_board.set_motor_encoder(Raven.MotorChannel.CH1, 0) # Reset encoder
 raven_board.set_motor_mode(Raven.MotorChannel.CH1, Raven.MotorMode.POSITION) # Set motor mode to POSITION
 raven_board.set_motor_pid(Raven.MotorChannel.CH1, p_gain = 100, i_gain = 0, d_gain = 0) # Set PID values
 
@@ -90,7 +90,7 @@ raven_board.set_motor_target(Raven.MotorChannel.CH1, 1100)
 In velocity controlled mode, you also get to set PID value and target in encoder counts per second.
 
 ```Python
-raven_board.set_encoder_value(Raven.MotorChannel.CH1, 0) # Reset encoder
+raven_board.set_motor_encoder(Raven.MotorChannel.CH1, 0) # Reset encoder
 raven_board.set_motor_mode(Raven.MotorChannel.CH1, Raven.MotorMode.VELOCITY) # Set motor mode to POSITION
 raven_board.set_motor_pid(Raven.MotorChannel.CH1, p_gain = 10, i_gain = 0, d_gain = 0) # Set PID values
 
