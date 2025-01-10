@@ -24,8 +24,11 @@ DC motors may come with encoders to estimate how many rotation has the motor rot
 
 Raven supports up to [5 DC motors with encoders](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#motor-connection). 
 
+> [!IMPORTANT]
+> For safety, Raven will stop the motors if it does not receive a motor command message at least every half a second.
+
 ## Encoder
-With Raven, you can get the encoder values. You can also set them to a new initial value, useful for initialization because Raven remembers the old encoder values while the robot is running. Here is an example of how to use it:
+With Raven, you can get the encoder values. You can also set them to a new initial value. Here is an example of how to use it:
 
 ```Python
 raven_board.set_encoder_value(Raven.MotorChannel.CH1, 0) # Set encoder count for motor 1 to zero
