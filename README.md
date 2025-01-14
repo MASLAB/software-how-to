@@ -31,8 +31,8 @@ Raven supports up to [5 DC motors with encoders](https://github.com/MASLAB/kitbo
 With Raven, you can get the encoder values. You can also set them to a new initial value. Here is an example of how to use it:
 
 ```Python
-raven_board.set_encoder_value(Raven.MotorChannel.CH1, 0) # Set encoder count for motor 1 to zero
-print(raven_board.get_encoder_value(Raven.MotorChannel.CH1)) # Print encoder count = "0"
+raven_board.set_motor_encoder(Raven.MotorChannel.CH1, 0) # Set encoder count for motor 1 to zero
+print(raven_board.get_motor_encoder(Raven.MotorChannel.CH1)) # Print encoder count = "0"
 ```
 
 ## Motor
