@@ -20,7 +20,7 @@ raven_board = Raven()
 ```
 
 # DC Motors
-DC motors may come with encoders to estimate how many rotation has the motor rotated. To increase the resolution of the encoder, the encoder spins with some gear ratio with respect to the motor, which also has another gear ratio. For example, the provided motor is a ~20:1 (about 20.05:1) motor with an encoder that does 11 counts per revolution (also called pulse per revolution). This means the encoder will count ~20 * 11 = ~220 counts per motor rotation.
+DC motors may come with encoders to estimate how many rotation has the motor rotated. To increase the resolution of the encoder, the encoder spins with some gear ratio with respect to the motor, which also has another gear ratio. For example, the provided motor is a 40:1 motor with an encoder that does 11 counts per revolution (also called pulse per revolution). This means the encoder will count 40 * 11 = 440 counts per motor rotation.
 
 Raven supports up to [5 DC motors with encoders](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#motor-connection). 
 
@@ -88,7 +88,7 @@ raven_board.set_motor_encoder(Raven.MotorChannel.CH1, 0) # Reset encoder
 raven_board.set_motor_mode(Raven.MotorChannel.CH1, Raven.MotorMode.POSITION) # Set motor mode to POSITION
 raven_board.set_motor_pid(Raven.MotorChannel.CH1, p_gain = 100, i_gain = 0, d_gain = 0) # Set PID values
 
-# Make the motor spin until 4400 counts (~20 rev of wheel motor)
+# Make the motor spin until 4400 counts (10 rev of wheel motor)
 raven_board.set_motor_target(Raven.MotorChannel.CH1, 4400)
 ```
 
@@ -100,7 +100,7 @@ raven_board.set_motor_encoder(Raven.MotorChannel.CH1, 0) # Reset encoder
 raven_board.set_motor_mode(Raven.MotorChannel.CH1, Raven.MotorMode.VELOCITY) # Set motor mode to POSITION
 raven_board.set_motor_pid(Raven.MotorChannel.CH1, p_gain = 10, i_gain = 0, d_gain = 0) # Set PID values
 
-# Make the motor spin at -4400 counts/second (~-20 rev/sec of wheel motor)
+# Make the motor spin at -4400 counts/second (-10 rev/sec of wheel motor)
 raven_board.set_motor_target(Raven.MotorChannel.CH1, -4400)
 ```
 
