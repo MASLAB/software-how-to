@@ -35,6 +35,9 @@ raven_board.set_motor_encoder(Raven.MotorChannel.CH1, 0) # Set encoder count for
 print(raven_board.get_motor_encoder(Raven.MotorChannel.CH1)) # Print encoder count = "0"
 ```
 
+> [!IMPORTANT] 
+> Encoder count should matches with the motor direction. To test, run the motor with direct mode (see [direct mode](#direct-mode)) and read out encoder reading. When motor is going forward (`reverse=False`), encoder counts should go up. If not, swap the C1 and C2 wires. See [motor connection](https://github.com/MASLAB/kitbot-how-to?tab=readme-ov-file#motor-connection) for more information.
+
 ## Motor
 There are 3 ways to drive the motors:
 * Direct - Motor moves according to a torque and speed factor. We recommend driving in direct mode first to get things started.
@@ -64,7 +67,7 @@ raven_board.set_motor_torque_factor(Raven.MotorChannel.CH1, 10) # Let it use up 
 
 ### Controlled mode
 > [!IMPORTANT]
-> The control loop for Raven motor runs at 5kHz (dt = 0.0002). This will be important to playing with PID values.
+> The control loop for Raven motor runs at 1kHz (dt = 0.001). This will be important to playing with PID values.
 
 > [!CAUTION]
 > The PID values provided are only as examples. They are untested and may not work for your motors. Here is some tip to tune the values:
